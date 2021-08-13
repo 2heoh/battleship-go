@@ -24,9 +24,5 @@ sonar:
   stage: analyze
   image: mercuriete/sonar-scanner
   script:
-  - sonar-scanner \
-    -Dsonar.projectKey=$SONAR_PROJECT_KEY \
-    -Dsonar.sources=. \
-    -Dsonar.host.url=$SONAR_URL \
-    -Dsonar.login=$SONAR_PROJECT_TOKEN
+  - sonar-scanner -X -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.sources=. -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_PROJECT_TOKEN
 
