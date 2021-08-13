@@ -24,7 +24,6 @@ sonar:
   stage: analyze
   image: mercuriete/sonar-scanner
   script:
-  - go version
   - sonar-scanner \
     -Dsonar.projectKey=$SONAR_PROJECT_KEY \
     -Dsonar.sources=. \
