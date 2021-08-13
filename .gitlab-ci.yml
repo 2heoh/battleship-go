@@ -22,6 +22,7 @@ build:
 
 sonar:
   stage: analyze
+  image: mercuriete/sonar-scanner
   script:
   - go version
   - sonar-scanner \
