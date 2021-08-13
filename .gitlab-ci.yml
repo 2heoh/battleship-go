@@ -9,6 +9,7 @@ stages:
 unit test:
   stage: test
   script:
+    - go mod download github.com/stretchr/testify
     - go test
 
 build:
