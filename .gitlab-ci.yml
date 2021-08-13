@@ -1,0 +1,28 @@
+image: golang:1.16
+
+stages: 
+  - test
+  - build
+  - analyze
+
+
+unit test:
+  stage: test
+  script:
+    - go test
+
+build:
+  stage: build
+  script:
+    - go build
+
+sonar:
+  stage: analyze
+  script:
+  - go version
+  - sonar-scanner \
+    -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+    -Dsonar.sources=. \
+    -Dsonar.host.url=$SONAR_URL \
+    -Dsonar.login=$SONAR_PROJECT_TOKEN
+
