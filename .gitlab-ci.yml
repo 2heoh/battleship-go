@@ -10,6 +10,7 @@ unit test:
   stage: test
   script:
     - go mod download github.com/stretchr/testify
+    - go get github.com/stretchr/testify/assert@v1.7.0
     - go test
 
 build:
