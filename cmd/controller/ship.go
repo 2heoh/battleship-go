@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"gitlab.com/2heoh/go-battleship/console"
-	"gitlab.com/2heoh/go-battleship/letter"
+	"go-battleship/cmd/console"
+	"go-battleship/cmd/letter"
 	"strconv"
 	"strings"
 )

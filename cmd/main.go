@@ -3,14 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
+	//"gitlab.com/2heoh/go-battleship/letter"
 	"math/rand"
 	"os"
 	"strconv"
 	"strings"
 
-	"gitlab.com/2heoh/go-battleship/console"
-	"gitlab.com/2heoh/go-battleship/controller"
-	"gitlab.com/2heoh/go-battleship/letter"
+	"go-battleship/cmd/console"
+	"go-battleship/cmd/controller"
+	"go-battleship/cmd/letter"
 )
 
 var (

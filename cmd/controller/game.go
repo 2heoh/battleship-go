@@ -2,8 +2,8 @@ package controller
 
 import (
 	"errors"
-	"gitlab.com/2heoh/go-battleship/console"
-	"gitlab.com/2heoh/go-battleship/letter"
+	"go-battleship/cmd/console"
+	"go-battleship/cmd/letter"
 	"math/rand"
 )
 

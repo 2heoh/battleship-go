@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/stretchr/testify/assert"
-	letter2 "gitlab.com/2heoh/go-battleship/letter"
+	"go-battleship/cmd/letter"
 	"testing"
 )
 
@@ -13,7 +13,7 @@ func TestCheckIsHitTrue(t *testing.T) {
 	counter := 1
 
 	for _, ship := range ships {
-		letter := letter2.Letter(counter)
+		letter := letter.Letter(counter)
 
 		for i := 0; i < ship.Size; i++ {
 			ship.positions = append(ship.positions, Position{Column: letter, Row: i})
@@ -22,7 +22,7 @@ func TestCheckIsHitTrue(t *testing.T) {
 		counter++
 	}
 
-	result, _ := CheckIsHit(ships, &Position{letter2.A, 1})
+	result, _ := CheckIsHit(ships, &Position{letter.A, 1})
 
 	assert.True(t, result)
 }
@@ -32,7 +32,7 @@ func TestCheckIsHitFalse(t *testing.T) {
 	counter := 1
 
 	for _, ship := range ships {
-		letter := letter2.Letter(counter)
+		letter := letter.Letter(counter)
 
 		for i := 0; i < ship.Size; i++ {
 			ship.positions = append(ship.positions, Position{Column: letter, Row: i})
@@ -41,7 +41,7 @@ func TestCheckIsHitFalse(t *testing.T) {
 		counter++
 	}
 
-	result, _ := CheckIsHit(ships, &Position{letter2.H, 1})
+	result, _ := CheckIsHit(ships, &Position{letter.H, 1})
 
 	assert.False(t, result)
 }
@@ -54,7 +54,7 @@ func TestCheckIsHitPositstionIsNull(t *testing.T) {
 }
 
 func TestCheckIsHitShipIsNull(t *testing.T) {
-	_, err := CheckIsHit(nil, &Position{letter2.H, 1})
+	_, err := CheckIsHit(nil, &Position{letter.H, 1})
 
 	fmt.Println(err)
 
@@ -70,7 +70,7 @@ func TestIsShipValidFalse(t *testing.T) {
 }
 
 func TestIsShipValidTrue(t *testing.T) {
-	positions := []Position{{letter2.A, 1}, {letter2.A, 1}, {letter2.A, 1}}
+	positions := []Position{{letter.A, 1}, {letter.A, 1}, {letter.A, 1}}
 	ship := Ship{Name: "TestShip", Size: 3, positions: positions}
 
 	result := IsShipValid(ship)

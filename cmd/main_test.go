@@ -2,9 +2,10 @@ package main
 
 import (
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/2heoh/go-battleship/controller"
-	"gitlab.com/2heoh/go-battleship/letter"
 	"testing"
+
+	"go-battleship/cmd/controller"
+	"go-battleship/cmd/letter"
 )
 
 func TestParsePosition(t *testing.T) {

@@ -11,13 +11,13 @@ This project requires a go v1.16 or higher. To prepare to work with it, pick one
 Run battleship 
 
 ```bash
-go run main.go
+go run cmd/main.go
 ```
 
 Execute tests 
 
 ```bash
-go test
+go test ./...
 ```
 
 ## Docker
