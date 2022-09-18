@@ -1,4 +1,4 @@
-image: golang:1.16
+image: golang:1.17
 
 stages: 
   - test
@@ -16,8 +16,8 @@ unit test:
 build:
   stage: build
   script:
-    - go mod download github.com/stretchr/testify
-    - go get github.com/stretchr/testify/assert@v1.7.0
+    - go mod init go-battleship
+    - cd cmd
     - go build
 
 sonar:

@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	//"gitlab.com/2heoh/go-battleship/letter"
 	"math/rand"
 	"os"
 	"strconv"
