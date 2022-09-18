@@ -16,7 +16,6 @@ unit test:
 build:
   stage: build
   script:
-    - go mod init go-battleship
     - cd cmd
     - go build
 
