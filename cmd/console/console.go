@@ -1,27 +1,30 @@
 package console
 
-import "fmt"
+import (
+	"battleship-go/cmd/contracts"
+	"fmt"
+)
 
 type printerBuilder struct {
 	level         int
 	timestampFlag bool
-	background    Color
-	foreground    Color
+	background    contracts.Color
+	foreground    contracts.Color
 }
 
-func (b *printerBuilder) Background(color Color) PrinterBuilder {
+func (b *printerBuilder) Background(color contracts.Color) PrinterBuilder {
 	b.background = color
 	return b
 }
 
-func (b *printerBuilder) Foreground(color Color) PrinterBuilder {
+func (b *printerBuilder) Foreground(color contracts.Color) PrinterBuilder {
 	b.foreground = color
 	return b
 }
 
 type printer struct {
-	background Color
-	foreground Color
+	background contracts.Color
+	foreground contracts.Color
 }
 
 func (b *printerBuilder) Build() Printer {
@@ -32,15 +35,15 @@ func (b *printerBuilder) Build() Printer {
 }
 
 type Printer interface {
-	SetForegroundColor(Color)
+	SetForegroundColor(contracts.Color)
 	Println(string string)
 	Print(string string)
 	Printf(string string, args ...interface{})
 }
 
 type PrinterBuilder interface {
-	Background(Color) PrinterBuilder
-	Foreground(Color) PrinterBuilder
+	Background(contracts.Color) PrinterBuilder
+	Foreground(contracts.Color) PrinterBuilder
 	Build() Printer
 }
 
@@ -51,12 +54,12 @@ func ColoredPrinter(level int, tsFlag bool) *printerBuilder {
 	}
 }
 
-func (p *printer) SetForegroundColor(color Color) {
+func (p *printer) SetForegroundColor(color contracts.Color) {
 	fmt.Print(color)
 }
 
 func (p *printer) ResetForegroundColor() {
-	fmt.Print(DEFAULT_GREY)
+	fmt.Print(contracts.DEFAULT_GREY)
 }
 
 func (p *printer) Println(text string) {

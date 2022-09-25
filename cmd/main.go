@@ -9,22 +9,25 @@ import (
 	"strings"
 
 	"battleship-go/cmd/console"
-	"battleship-go/cmd/controller"
-	"battleship-go/cmd/letter"
+	"battleship-go/cmd/gamecontroller"
+	"battleship-go/cmd/contracts"
+	"battleship-go/cmd/telemetryclient"
 )
 
 var (
-	enemyFleet []*controller.Ship
-	myFleet    []*controller.Ship
+	enemyFleet []*contracts.Ship
+	myFleet    []*contracts.Ship
 	scanner    *bufio.Scanner
+	apptelemetryclient *telemetryclient.TelemetryClient
 )
-var printer = console.ColoredPrinter(1, false).Background(console.BLACK).Foreground(console.WHITE).Build()
+var printer = console.ColoredPrinter(1, false).Background(contracts.BLACK).Foreground(contracts.WHITE).Build()
 
 func main() {
-
+	apptelemetryclient = telemetryclient.NewTelemetryClient()
+	apptelemetryclient.TrackEvent("ApplicationStarted", map[string]string{"Technology": "GOLang"})
 	scanner = bufio.NewScanner(os.Stdin)
 
-	printer.SetForegroundColor(console.MAGENTA)
+	printer.SetForegroundColor(contracts.MAGENTA)
 	printer.Println("                                     |__")
 	printer.Println("                                     |\\/")
 	printer.Println("                                     ---")
@@ -39,7 +42,7 @@ func main() {
 	printer.Println("|                        Welcome to Battleship                         BB-61/")
 	printer.Println(" \\_________________________________________________________________________|")
 	printer.Println("")
-	printer.SetForegroundColor(console.WHITE)
+	printer.SetForegroundColor(contracts.WHITE)
 
 	initializeGame()
 
@@ -69,7 +72,8 @@ func startGame() {
 			if input != "" {
 				position := parsePosition(input)
 				var err error
-				isHit, err = controller.CheckIsHit(enemyFleet, position)
+				isHit, err = gamecontroller.CheckIsHit(enemyFleet, position)
+				apptelemetryclient.TrackEvent("Player_ShootPosition", map[string]string{"Position": input, "IsHit": strconv.FormatBool(isHit) });
 				if err != nil {
 					printer.Printf("Error: %s\n", err)
 				}
@@ -97,7 +101,9 @@ func startGame() {
 
 		position := getRandomPosition()
 		var err error
-		isHit, err = controller.CheckIsHit(myFleet, position)
+		isHit, err = gamecontroller.CheckIsHit(myFleet, position)
+		apptelemetryclient.TrackEvent("Computer_ShootPosition", map[string]string{"Position": tostring(*position), "IsHit": strconv.FormatBool(isHit) });
+		
 		if err != nil {
 			printer.Printf("Error: %s\n", err)
 		}
@@ -122,13 +128,17 @@ func startGame() {
 	}
 }
 
-func parsePosition(input string) *controller.Position {
+func parsePosition(input string) *contracts.Position {
 	ltr := strings.ToUpper(string(input[0]))
 	number, _ := strconv.Atoi(string(input[1]))
-	return &controller.Position{
-		Column: letter.FromString(ltr),
+	return &contracts.Position{
+		Column: contracts.FromString(ltr),
 		Row:    number,
 	}
+}
+
+func tostring(p contracts.Position) string {
+	return p.Column.String() + strconv.FormatInt(int64(p.Row), 10)
 }
 
 func beep() {
@@ -144,7 +154,7 @@ func initializeGame() {
 func initializeMyFleet() {
 	//reader := bufio.NewReader(os.Stdin)
 	//scanner := bufio.NewScanner(os.Stdin)
-	myFleet = controller.InitializeShips()
+	myFleet = gamecontroller.InitializeShips()
 
 	printer.Println("Please position your fleet (Game board has size from A to H and 1 to 8) :")
 
@@ -160,6 +170,7 @@ func initializeMyFleet() {
 				positionInput := scanner.Text()
 				if positionInput != "" {
 					ship.AddPosition(positionInput)
+					apptelemetryclient.TrackEvent("Player_PlaceShipPosition", map[string]string{"Position": positionInput, "Ship": ship.Name, "PositionInShip": strconv.FormatInt(int64(len(ship.Positions)), 10) });
 					break
 				}
 			}
@@ -167,36 +178,37 @@ func initializeMyFleet() {
 	}
 }
 
-func getRandomPosition() *controller.Position {
+func getRandomPosition() *contracts.Position {
 	rows := 8
 	lines := 8
-	letter := letter.Letter(rand.Intn(lines-1) + 1)
+	letter := contracts.Letter(rand.Intn(lines-1) + 1)
 	number := rand.Intn(rows-1) + 1
-	return &controller.Position{Column: letter, Row: number}
+	position := &contracts.Position{Column: letter, Row: number}
+	return position
 }
 
 func initializeEnemyFleet() {
-	enemyFleet = controller.InitializeShips()
+	enemyFleet = gamecontroller.InitializeShips()
 
-	enemyFleet[0].SetPositions(&controller.Position{Column: letter.B, Row: 4})
-	enemyFleet[0].SetPositions(&controller.Position{Column: letter.B, Row: 5})
-	enemyFleet[0].SetPositions(&controller.Position{Column: letter.B, Row: 6})
-	enemyFleet[0].SetPositions(&controller.Position{Column: letter.B, Row: 7})
-	enemyFleet[0].SetPositions(&controller.Position{Column: letter.B, Row: 8})
+	enemyFleet[0].SetPositions(&contracts.Position{Column: contracts.B, Row: 4})
+	enemyFleet[0].SetPositions(&contracts.Position{Column: contracts.B, Row: 5})
+	enemyFleet[0].SetPositions(&contracts.Position{Column: contracts.B, Row: 6})
+	enemyFleet[0].SetPositions(&contracts.Position{Column: contracts.B, Row: 7})
+	enemyFleet[0].SetPositions(&contracts.Position{Column: contracts.B, Row: 8})
 
-	enemyFleet[1].SetPositions(&controller.Position{Column: letter.E, Row: 6})
-	enemyFleet[1].SetPositions(&controller.Position{Column: letter.E, Row: 7})
-	enemyFleet[1].SetPositions(&controller.Position{Column: letter.E, Row: 8})
-	enemyFleet[1].SetPositions(&controller.Position{Column: letter.E, Row: 9})
+	enemyFleet[1].SetPositions(&contracts.Position{Column: contracts.E, Row: 6})
+	enemyFleet[1].SetPositions(&contracts.Position{Column: contracts.E, Row: 7})
+	enemyFleet[1].SetPositions(&contracts.Position{Column: contracts.E, Row: 8})
+	enemyFleet[1].SetPositions(&contracts.Position{Column: contracts.E, Row: 9})
 
-	enemyFleet[2].SetPositions(&controller.Position{Column: letter.A, Row: 3})
-	enemyFleet[2].SetPositions(&controller.Position{Column: letter.B, Row: 3})
-	enemyFleet[2].SetPositions(&controller.Position{Column: letter.C, Row: 3})
+	enemyFleet[2].SetPositions(&contracts.Position{Column: contracts.A, Row: 3})
+	enemyFleet[2].SetPositions(&contracts.Position{Column: contracts.B, Row: 3})
+	enemyFleet[2].SetPositions(&contracts.Position{Column: contracts.C, Row: 3})
 
-	enemyFleet[3].SetPositions(&controller.Position{Column: letter.F, Row: 8})
-	enemyFleet[3].SetPositions(&controller.Position{Column: letter.G, Row: 8})
-	enemyFleet[3].SetPositions(&controller.Position{Column: letter.H, Row: 8})
+	enemyFleet[3].SetPositions(&contracts.Position{Column: contracts.F, Row: 8})
+	enemyFleet[3].SetPositions(&contracts.Position{Column: contracts.G, Row: 8})
+	enemyFleet[3].SetPositions(&contracts.Position{Column: contracts.H, Row: 8})
 
-	enemyFleet[4].SetPositions(&controller.Position{Column: letter.C, Row: 5})
-	enemyFleet[4].SetPositions(&controller.Position{Column: letter.C, Row: 6})
+	enemyFleet[4].SetPositions(&contracts.Position{Column: contracts.C, Row: 5})
+	enemyFleet[4].SetPositions(&contracts.Position{Column: contracts.C, Row: 6})
 }
