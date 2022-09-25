@@ -1,4 +1,4 @@
-module go-battleship
+module battleship-go
 
 go 1.17
 

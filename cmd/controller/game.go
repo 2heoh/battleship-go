@@ -2,8 +2,8 @@ package controller
 
 import (
 	"errors"
-	"go-battleship/cmd/console"
-	"go-battleship/cmd/letter"
+	"battleship-go/cmd/console"
+	"battleship-go/cmd/letter"
 	"math/rand"
 )
 

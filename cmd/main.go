@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"strings"
 
-	"go-battleship/cmd/console"
-	"go-battleship/cmd/controller"
-	"go-battleship/cmd/letter"
+	"battleship-go/cmd/console"
+	"battleship-go/cmd/controller"
+	"battleship-go/cmd/letter"
 )
 
 var (

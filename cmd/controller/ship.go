@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"go-battleship/cmd/console"
-	"go-battleship/cmd/letter"
+	"battleship-go/cmd/console"
+	"battleship-go/cmd/letter"
 	"strconv"
 	"strings"
 )

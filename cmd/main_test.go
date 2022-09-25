@@ -4,8 +4,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 
-	"go-battleship/cmd/controller"
-	"go-battleship/cmd/letter"
+	"battleship-go/cmd/controller"
+	"battleship-go/cmd/letter"
 )
 
 func TestParsePosition(t *testing.T) {

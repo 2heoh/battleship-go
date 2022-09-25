@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/stretchr/testify/assert"
-	"go-battleship/cmd/letter"
+	"battleship-go/cmd/letter"
 	"testing"
 )
 
