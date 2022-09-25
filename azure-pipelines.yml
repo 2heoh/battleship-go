@@ -10,6 +10,10 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: GoTool@0
+  inputs:
+    version: '1.17'
+
 - script: "env GOOS=windows GOARCH=amd64 go build -o battleship.exe cmd/main.go"
   displayName: "Build exe for Windows"
 
@@ -18,12 +22,14 @@ steps:
   inputs:
     command: 'test'
     arguments: '-v ./...'
-    
-- task: CopyFiles@2
+
+- task: ArchiveFiles@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: '*.exe'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    rootFolderOrFile: '$(Build.SourcesDirectory)/battleship.exe'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true)
 
 - task: PublishBuildArtifacts@1
   inputs:
