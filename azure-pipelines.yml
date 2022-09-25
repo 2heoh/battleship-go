@@ -10,12 +10,23 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: Go@0
-  inputs:
-    command: 'build'
-    arguments: cmd/main.go
+- script: "env GOOS=windows GOARCH=amd64 go build -o battleship.exe cmd/main.go"
+  displayName: "Build exe for Windows"
 
 - task: Go@0
+  displayName: "Test Go app"
   inputs:
     command: 'test'
     arguments: '-v ./...'
+    
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '*.exe'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
