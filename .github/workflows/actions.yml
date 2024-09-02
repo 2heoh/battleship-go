@@ -2,13 +2,12 @@ name: GitHub Actions Pipeline
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: golang:1.17
+  BattleshipsPipeline:
+    runs-on: golang:1.23
     steps:
       - name: Unit tests
         run: |
-          go mod download github.com/stretchr/testify
-          go get github.com/stretchr/testify/assert@v1.7.0
+          go get -u github.com/stretchr/testify
           go test ./...
       - name: Build
         run: |

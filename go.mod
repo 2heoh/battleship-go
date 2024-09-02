@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/microsoft/ApplicationInsights-Go v0.4.4
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
