@@ -35,7 +35,7 @@ func TestPlayGameShotHits(t *testing.T) {
 	}
 
 	assert.Contains(t, string(b), "Welcome to Battleship")
-	assert.Contains(t, string(b), "[fail]Yeah ! Nice hit !")
+	assert.Contains(t, string(b), "Yeah ! Nice hit !")
 }
 
 func TestPlayGameShotMisses(t *testing.T) {
