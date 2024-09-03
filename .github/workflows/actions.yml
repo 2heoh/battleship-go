@@ -1,10 +1,14 @@
 name: GitHub Actions Pipeline
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} is testing out battleships build 🛳
 on: [push]
 jobs:
   BattleshipsPipeline:
-    runs-on: golang:1.23
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.0'
       - name: Unit tests
         run: |
           go get -u github.com/stretchr/testify
