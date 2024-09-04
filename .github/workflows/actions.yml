@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing out battleships build 🛳
 on: [push]
 jobs:
   Test:
-    runs-on: ubuntu-latest
+    runs-on: alpine-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
@@ -14,14 +14,16 @@ jobs:
           go get -u github.com/stretchr/testify
           go test ./...
   Build:
-    runs-on: ubuntu-latest
+    runs-on: alpine-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
       - name: Build
         run: |
           cd cmd
           go build
   Analyse:
-    runs-on: sonarsource
+    runs-on: alpine-latest
     steps:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@v2.3.0
